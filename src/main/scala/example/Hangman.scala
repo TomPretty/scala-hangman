@@ -27,8 +27,7 @@ object Hangman extends App {
           printDuplicateGuessMessage(guess)
           mainLoop(state)
         } else {
-          val newGuesses = guess +: state.guesses
-          val newState = GameState(state.word, newGuesses)
+          val newState = state.copy(guesses=guess +: state.guesses)
 
           if (hasGuessedWord(newState)) {
             printGameSummary(newState)
@@ -37,7 +36,7 @@ object Hangman extends App {
             printGameSummary(newState)
             printRanOutOfGuessesMessage(state.word)
           } else {
-            mainLoop(GameState(state.word, newGuesses))
+            mainLoop(newState)
           }
         }
       }
