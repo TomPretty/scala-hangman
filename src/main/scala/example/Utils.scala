@@ -6,7 +6,6 @@ object Utils {
   def showPrompt: Unit = print("What's your guess? ")
 
   def readInput: Option[Char] = {
-    // readChar.flatMap(c => if (c.isLetter) Some(c) else None)
     val input = readLine()
     if (input.length > 1) {
       None
@@ -32,7 +31,7 @@ object Utils {
     val word = state.word.toCharArray
       .map(c => if (state.guesses.contains(c)) c else '_')
       .mkString(" ")
-    val guesses = state.guesses.sorted.mkString(" ")
+    val guesses = state.guesses.toSeq.sorted.mkString(" ")
     val gallows = gallowsStages(state.numWrongGuesses)
 
     println(s"word: $word")

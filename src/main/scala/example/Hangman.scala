@@ -4,15 +4,15 @@ import Utils._
 
 case class GameState(
     word: String,
-    guesses: List[Char]
+    guesses: Set[Char] = Set()
 ) {
   def numWrongGuesses = {
-    guesses.filter(!word.contains(_)).length
+    guesses.toSeq.filter(!word.contains(_)).length
   }
 }
 
 object Hangman extends App {
-  mainLoop(GameState(word = "hello", guesses = Nil))
+  mainLoop(GameState(word = "hello"))
 
   def mainLoop(state: GameState): Unit = {
     printGameSummary(state)
@@ -27,7 +27,7 @@ object Hangman extends App {
           printDuplicateGuessMessage(guess)
           mainLoop(state)
         } else {
-          val newState = state.copy(guesses=guess +: state.guesses)
+          val newState = state.copy(guesses=state.guesses + guess)
 
           if (hasGuessedWord(newState)) {
             printGameSummary(newState)
@@ -43,7 +43,7 @@ object Hangman extends App {
     }
   }
 
-  def isDuplicateGuess(guess: Char, guesses: List[Char]) = {
+  def isDuplicateGuess(guess: Char, guesses: Set[Char]) = {
     guesses.contains(guess)
   }
 
